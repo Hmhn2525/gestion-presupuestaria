@@ -1,0 +1,15 @@
+{
+  "synthetic": true,
+  "center": "DEMO-CC-001",
+  "owner": "Persona Demo 01",
+  "currency": "MXN",
+  "version": 1,
+  "month_values": [
+    "100.00",
+    "200.00",
+    "0.00"
+  ],
+  "expected_total": "300.00",
+  "state": "borrador",
+  "illustrative_only": true
+}
