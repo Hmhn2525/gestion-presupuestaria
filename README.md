@@ -1,56 +1,68 @@
 # Gestión y Control Presupuestario
 
-Captura, revisión y trazabilidad por centro de costo.
+Captura descentralizada, control de versiones y revisión de presupuestos por centro de costo.
 
-**Estado:** caso de estudio documental de una implementación local revisada. El código operativo y sus datos no se distribuyen en este repositorio. Se publican documentación nueva y un recorrido ilustrativo con datos ficticios.
+> [!NOTE]
+> **Repositorio documental.** El código operativo permanece privado. Aquí se publican documentación técnica, arquitectura, captura del recorrido y un ejemplo reproducible con datos sintéticos.
 
-## Problema y solución
+[Probar el ejemplo](#probar-el-ejemplo) · [Caso de estudio](docs/case-study.md) · [Arquitectura](docs/architecture.md) · [Verificación y límites](docs/verification.md)
 
-Organizar presupuestos por propietario y centro, conservar versiones y diferenciar borradores privados, entregas y decisiones de revisión.
+## Problema
 
-La fuente local implementa plantillas y presupuestos nativos, asignaciones por centro, revisión y control de versiones. La autorización se comprueba en el servidor.
+La integración de presupuestos financieros anuales suele depender de múltiples hojas de cálculo dispersas entre responsables de área. Esto genera dificultades para controlar qué versión está vigente, confusión entre borradores preliminares y cifras aprobadas, pérdida de comentarios de revisión y riesgo de sobrescribir montos durante la consolidación final.
 
-## Funciones observadas en la fuente
+## Solución
 
-- Plantillas versionadas y asignaciones por propietario y centro.
-- Borrador privado, entrega, revisión, devolución y validación.
-- Control de concurrencia mediante la versión esperada.
-- Conservación de entregas, cambios y referencias históricas.
-- Capacidades de lectura global y captura comprobadas por el servidor.
+Una solución que descentraliza la captura y formaliza el ciclo presupuestario:
+- **Asignación por centro:** cada propietario captura exclusivamente los centros de costo y rubros bajo su responsabilidad.
+- **Ciclo de revisión estricto:** flujo formal de estados (*Borrador privado → Entrega → En revisión → Devuelto con observaciones → Validado*).
+- **Control de concurrencia:** validación de la versión esperada en el servidor para evitar que dos revisiones concurrentes se sobrepongan.
+- **Trazabilidad histórica:** resguardo inmutable de cada entrega previa para auditoría y comparativas entre versiones.
 
-## Tecnologías verificadas
+![Recorrido documental con datos ficticios: ciclo presupuestario y versiones](docs/images/recorrido-demo.png)
 
-React, TypeScript, Python, FastAPI, SQLAlchemy, SQLite, Alembic. Consulte la [arquitectura](docs/architecture.md) para su función.
+*Recorrido explicativo con datos sintéticos. Ilustración independiente; no ejecuta la aplicación operativa.*
 
-## Evidencia y resultados
+## Aportación personal
 
-El 5 de octubre de 2026 se ejecutaron 19 pruebas sintéticas seleccionadas del servidor: 19 correctas. Cubren presupuesto nativo, programa, capacidades y alta de participantes. Se registró una advertencia de deprecación en una dependencia de pruebas. Esta selección no sustituye la suite completa.
+<!-- APORTACION-PERSONAL: sustituir tras la confirmación agrupada de responsabilidades. -->
+Las responsabilidades personales específicas se detallarán tras la confirmación agrupada. Este repositorio documenta el caso, la arquitectura observada y las pruebas sintéticas sin atribuir autoría exclusiva de los sistemas operativos.
 
-No se publican métricas de ahorro, adopción o productividad. La [verificación](docs/verification.md) explica su alcance. La aportación personal detallada y la autoría integral del código operativo no están acreditadas públicamente; este caso presenta la revisión técnica y la documentación del proyecto asociado al portafolio.
+## Probar el ejemplo
 
-## Demostración y capturas
+Requiere Python 3 y biblioteca estándar. Desde la raíz del repositorio:
 
-Abra [demo/index.html](demo/index.html) localmente. El recorrido funciona sin servidor, instalación ni conexión a servicios. Su tabla representa [datos sintéticos](examples/scenario.json), no una captura de la aplicación original. El botón recorre textos ilustrativos; no ejecuta operaciones de negocio.
+```text
+python examples/verify.py
+```
 
-![Recorrido documental con datos ficticios](docs/images/recorrido-demo.png)
+Comprueba la consolidación de montos mensuales de un presupuesto sintético y la conservación de su versión y estado.
 
-Puede verificar los datos usando Python 3: `python examples/verify.py`.
+Para explorar el ciclo de revisión en el navegador, abra [demo/index.html](demo/index.html) de forma local.
 
-## Caso de estudio
+## Resultados comprobados
 
-Consulte [problema, decisiones y aprendizajes](docs/case-study.md).
+- **Trazabilidad de versiones y estados:** conservación estructurada de borradores, entregas y observaciones por centro de costo.
+- **Control de concurrencia:** verificación de la versión esperada en el backend antes de persistir cambios.
+- **Suite de pruebas de servidor:** 19 pruebas sintéticas seleccionadas del servidor ejecutadas correctamente (5 de octubre de 2026), cubriendo presupuesto nativo, asignaciones, capacidades y alta de participantes.
 
-## Seguridad y limitaciones
+No se publican métricas no medidas de ahorro en tiempos contables ni capacidad del sistema.
 
-Publicación independiente sin historial operativo. No incluye credenciales, identificadores de servicios, catálogos empresariales, datos personales, archivos de respaldo ni configuración productiva. Las pruebas de la fuente se ejecutaron con simulación o temporales aislados; el recorrido público es una explicación independiente.
+## Tecnologías
 
-## Pendientes
+| Alcance | Tecnologías |
+|---|---|
+| Observadas en la fuente | React, TypeScript, Python, FastAPI, SQLAlchemy, SQLite, Alembic |
+| Ejemplo público | Python 3 (biblioteca estándar), HTML/CSS estático |
 
-- Aceptación funcional con responsables de Finanzas.
-- Comprobación de la entrega y entorno operativo vigente antes de una intervención.
-- Validación de reglas, catálogos y condiciones de operación aplicables a cada versión.
-- Recuperación, acceso desde dispositivos y licencia en su fase propia.
+## Límites
+
+- El código operativo completo es privado y no se distribuye en este repositorio.
+- Las 19 pruebas ejecutadas corresponden a una selección sintética del backend que no sustituye la suite completa de integración ni la aprobación funcional de Finanzas.
+- Validación de catálogos contables avanzados y acceso móvil quedan pendientes de etapas posteriores.
+
+Detalle técnico y condiciones pendientes: [verificación y límites](docs/verification.md).
 
 ## Licencia
 
-Pendiente de decisión expresa. No se asigna una licencia de software ni se atribuyen derechos sobre el código operativo.
+Pendiente de decisión expresa. No se asigna licencia ni derechos sobre el código privado.

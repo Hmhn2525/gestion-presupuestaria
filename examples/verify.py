@@ -8,3 +8,5 @@ assert sum((Decimal(x) for x in data['month_values']), Decimal('0')) == Decimal(
 assert data['illustrative_only'] is True
 assert data['center'].startswith('DEMO-')
 print('Ejemplo sintético coherente; no ejecuta ni valida el sistema operativo.')
+print(f"Centro: {data['center']} | Responsable: {data['owner']} | Versión: {data['version']} | Estado: {data['state']}")
+print(f"Meses: {', '.join(data['month_values'])} {data['currency']} | Total verificado: {data['expected_total']} {data['currency']}")
