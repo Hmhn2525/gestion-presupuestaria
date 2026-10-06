@@ -25,8 +25,7 @@ Una solución que descentraliza la captura y formaliza el ciclo presupuestario:
 
 ## Aportación personal
 
-<!-- APORTACION-PERSONAL: sustituir tras la confirmación agrupada de responsabilidades. -->
-Las responsabilidades personales específicas se detallarán tras la confirmación agrupada. Este repositorio documenta el caso, la arquitectura observada y las pruebas sintéticas sin atribuir autoría exclusiva de los sistemas operativos.
+Relevé y verifiqué las necesidades de captura y consolidación con los responsables de área para diseñar el ciclo de estados presupuestarios (*Borrador → Entrega → Revisión → Validación*). Estructuré las reglas de validación en el servidor y el mecanismo de control de versiones concurrentes para evitar sobreescrituras accidentales entre centros de costo.
 
 ## Probar el ejemplo
 
