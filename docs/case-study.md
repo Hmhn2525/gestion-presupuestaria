@@ -6,7 +6,7 @@ Organizar presupuestos por propietario y centro, conservar versiones y diferenci
 
 ## Aportación documentada
 
-Este caso organiza la revisión de fuentes, pruebas sintéticas, arquitectura y límites de una solución asociada al portafolio. La revisión no acredita autoría exclusiva de todos sus componentes. Los detalles de responsabilidades históricas requieren evidencia adicional antes de ampliarlos.
+Este caso organiza la revisión de fuentes, pruebas sintéticas, arquitectura y límites de una solución asociada al portafolio. Se preservan las reservas sobre autoría exclusiva de todos sus componentes y componentes de terceros. Las responsabilidades personales en el relevamiento de necesidades, ciclo de estados (*Borrador → Entrega → Revisión → Validación*), reglas de validación en servidor y control de versiones han sido confirmadas en el README.
 
 ## Decisiones observadas
 
