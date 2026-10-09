@@ -1,1 +1,165 @@
-<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="Recorrido documental ficticio de Gestión y Control Presupuestario"><title>Gestión y Control Presupuestario · Recorrido documental</title><style>body{margin:0;background:#f5f7fc;color:#17233b;font:16px/1.6 system-ui,sans-serif}main{max-width:950px;margin:auto;padding:42px 24px}h1{font-size:clamp(26px,5vw,42px);line-height:1.2}p{max-width:75ch}.badge{color:#2649ab;font-weight:700}section{background:white;padding:24px;border-radius:16px;margin:20px 0;border:1px solid #dce3ef}table{width:100%;border-collapse:collapse}th,td{text-align:left;padding:12px;border-bottom:1px solid #dce3ef}th{width:45%}li{margin:8px 0}a{color:#2649ab}button{padding:10px 18px;border:0;border-radius:8px;background:#2649ab;color:white;font:inherit}button:focus-visible,a:focus-visible{outline:3px solid #d48317;outline-offset:4px}#step{min-height:28px;font-weight:700}@media(max-width:450px){main{padding:22px 16px}section{padding:16px}table{font-size:14px}th{width:40%}}</style></head><body><main><p class="badge">DATOS FICTICIOS · RECORRIDO DOCUMENTAL</p><h1>Gestión y Control Presupuestario</h1><p>Captura, revisión y trazabilidad por centro de costo. Ilustración independiente; no es la interfaz original ni ejecuta su backend.</p><section aria-labelledby="scenario"><h2 id="scenario">Escenario sintético</h2><table><caption>Valores inventados para explicar el flujo</caption><tbody><tr><th scope="row">Centro</th><td>DEMO-CC-001</td></tr><tr><th scope="row">Responsable</th><td>Persona Demo 01</td></tr><tr><th scope="row">Versión ilustrativa</th><td>1</td></tr><tr><th scope="row">Enero / febrero / marzo</th><td>100.00 / 200.00 / 0.00 MXN</td></tr><tr><th scope="row">Total ilustrativo</th><td>300.00 MXN</td></tr></tbody></table></section><section aria-labelledby="walk"><h2 id="walk">Etapas del recorrido</h2><p id="step" aria-live="polite"></p><button id="next" type="button">Siguiente etapa</button><p>El botón cambia únicamente el texto explicativo. Al terminar vuelve al inicio.</p></section><p>El 5 de octubre de 2026 se ejecutaron 19 pruebas sintéticas seleccionadas del servidor: 19 correctas. Cubren presupuesto nativo, programa, capacidades y alta de participantes. Se registró una advertencia de deprecación en una dependencia de pruebas. Esta selección no sustituye la suite completa.</p><p><a href="../README.md">Volver a la documentación</a></p></main><script>const steps=["Plantilla ficticia", "Asignación al centro demo", "Borrador privado", "Entrega para revisión", "Validación o devolución"];let position=0;const output=document.getElementById('step');function render(){output.textContent=(position+1)+' / '+steps.length+': '+steps[position];}document.getElementById('next').addEventListener('click',()=>{position=(position+1)%steps.length;render();});render();</script></body></html>
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Demo sintética de captura y revisión de un presupuesto anual. Todo ocurre en memoria del navegador.">
+  <title>Demo de gestión presupuestaria</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="budget-state.js" defer></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <div class="scope-banner" role="note">
+    <span class="scope-dot" aria-hidden="true"></span>
+    <strong>Demo sintética</strong>
+    <span>Datos ficticios · permisos simulados solo en este navegador · sin backend ni persistencia</span>
+  </div>
+
+  <main class="app-shell">
+    <header class="page-header">
+      <div>
+        <p class="eyebrow">PORTAFOLIO · LABORATORIO INTERACTIVO</p>
+        <h1>Gestión presupuestaria</h1>
+        <p class="lead">Captura mensual, entrega y revisión para dos centros ficticios.</p>
+      </div>
+      <button class="button button-quiet" id="reset-demo" type="button">Reiniciar escenario</button>
+    </header>
+
+    <section class="panel profile-panel" aria-labelledby="profile-heading">
+      <div class="profile-control">
+        <label for="profile-select" id="profile-heading">Perfil ficticio</label>
+        <select id="profile-select">
+          <option value="capture-north">Persona Demo 01 · captura Norte</option>
+          <option value="capture-south">Persona Demo 02 · captura Sur</option>
+          <option value="reviewer">Persona Revisa 01 · revisión</option>
+        </select>
+      </div>
+      <p class="profile-explanation" id="profile-assignment"></p>
+    </section>
+
+    <nav class="center-switcher" id="center-picker" aria-label="Centros de costo"></nav>
+
+    <p class="notice" id="status-message" role="status" aria-live="polite"></p>
+
+    <div class="workspace">
+      <section class="panel budget-panel" aria-labelledby="budget-title">
+        <div class="budget-heading">
+          <div>
+            <p class="eyebrow">PRESUPUESTO ANUAL · MXN</p>
+            <h2 id="budget-title"></h2>
+            <p class="budget-meta" id="budget-meta"></p>
+          </div>
+          <span class="status-badge" id="status-badge"></span>
+        </div>
+
+        <div class="capture-tools" id="capture-actions" hidden>
+          <div>
+            <strong>Completa los 36 importes para entregar.</strong>
+            <span>Un cero capturado cuenta como dato; una celda vacía queda pendiente.</span>
+          </div>
+          <div class="button-row">
+            <button class="button button-quiet" id="fill-blanks" type="button">Registrar vacíos como 0.00</button>
+            <button class="button button-primary" id="submit-budget" type="button">Entregar presupuesto</button>
+            <button class="button button-quiet" id="stale-submit" type="button">Probar rechazo con versión anterior</button>
+          </div>
+        </div>
+        <div class="capture-tools readonly-tools" id="readonly-note" hidden>
+          <div>
+            <strong id="readonly-title"></strong>
+            <span id="readonly-description"></span>
+          </div>
+        </div>
+
+        <p class="completion-summary" id="completion-summary"></p>
+        <div class="table-scroll" id="table-scroll" tabindex="0" role="region" aria-label="Matriz mensual. Desplaza horizontalmente para ver los doce meses.">
+          <table id="budget-table"></table>
+        </div>
+        <p class="table-hint">En pantallas estrechas, desplaza la matriz horizontalmente. Puedes enfocar esta región con Tab y moverla con las teclas de desplazamiento.</p>
+      </section>
+
+      <aside class="side-column">
+        <section class="panel review-panel" aria-labelledby="review-heading">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">CICLO DIDÁCTICO</p>
+              <h2 id="review-heading">Entrega y revisión</h2>
+            </div>
+            <span class="step-mark" aria-hidden="true">02</span>
+          </div>
+          <p class="panel-copy" id="review-status"></p>
+          <div class="review-actions" id="review-actions" hidden>
+            <label for="review-note">Observación de revisión</label>
+            <textarea id="review-note" rows="3" placeholder="Escribe una observación para devolver el presupuesto."></textarea>
+            <div class="button-row review-buttons">
+              <button class="button button-quiet" id="return-budget" type="button">Devolver con observación</button>
+              <button class="button button-primary" id="approve-budget" type="button">Validar entrega</button>
+            </div>
+          </div>
+        </section>
+
+        <section class="panel history-panel" aria-labelledby="history-heading">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">SNAPSHOTS EN MEMORIA</p>
+              <h2 id="history-heading">Historial de entregas</h2>
+            </div>
+            <span class="step-mark" aria-hidden="true">03</span>
+          </div>
+          <ol class="history-list" id="submission-history"></ol>
+        </section>
+
+        <section class="panel activity-panel" aria-labelledby="activity-heading">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">EVENTOS DEL ESCENARIO</p>
+              <h2 id="activity-heading">Actividad</h2>
+            </div>
+          </div>
+          <ol class="event-list" id="event-log"></ol>
+        </section>
+      </aside>
+    </div>
+
+    <footer class="page-footer">
+      <p><strong>Alcance:</strong> esta página es un ejemplo público independiente. Las asignaciones son ficticias y solo ocultan o habilitan controles en JavaScript; no prueban autorización. Los datos viven en memoria y se pierden al reiniciar o cerrar la página.</p>
+      <a href="../README.md">Documentación y verificador reproducible</a>
+    </footer>
+  </main>
+
+  <script id="scenario-data" type="application/json">
+{
+  "synthetic": true,
+  "currency": "MXN",
+  "period": "Ejercicio demo",
+  "profiles": [
+    { "id": "capture-north", "name": "Persona Demo 01", "role": "capture", "assignedCenterIds": ["DEMO-CC-001"] },
+    { "id": "capture-south", "name": "Persona Demo 02", "role": "capture", "assignedCenterIds": ["DEMO-CC-002"] },
+    { "id": "reviewer", "name": "Persona Revisa 01", "role": "reviewer", "assignedCenterIds": ["DEMO-CC-001", "DEMO-CC-002"] }
+  ],
+  "centers": [
+    {
+      "id": "DEMO-CC-001",
+      "name": "Centro Norte",
+      "initialVersion": 1,
+      "items": [
+        { "id": "personnel", "name": "Personal", "months": ["100.00", "100.00", "100.00", "100.00", "100.00", "100.00", "100.00", "100.00", "100.00", "100.00", "100.00", "100.00"] },
+        { "id": "operations", "name": "Operación", "months": ["200.00", "200.00", "200.00", "200.00", "200.00", "200.00", "200.00", "200.00", "200.00", "200.00", "200.00", "200.00"] },
+        { "id": "training", "name": "Capacitación", "months": ["0.00", "0.00", "0.00", "0.00", "0.00", "0.00", "0.00", "0.00", "0.00", "0.00", "0.00", null] }
+      ]
+    },
+    {
+      "id": "DEMO-CC-002",
+      "name": "Centro Sur",
+      "initialVersion": 1,
+      "items": [
+        { "id": "personnel", "name": "Personal", "months": ["120.00", "120.00", "120.00", "120.00", "120.00", "120.00", "120.00", "120.00", "120.00", "120.00", "120.00", "120.00"] },
+        { "id": "operations", "name": "Operación", "months": ["80.00", "80.00", "80.00", "80.00", "80.00", "80.00", "80.00", "80.00", "80.00", "80.00", "80.00", "80.00"] },
+        { "id": "equipment", "name": "Equipo", "months": ["0.00", "0.00", "0.00", "0.00", "0.00", "0.00", "0.00", "0.00", "0.00", "0.00", "0.00", null] }
+      ]
+    }
+  ]
+}
+  </script>
+</body>
+</html>
